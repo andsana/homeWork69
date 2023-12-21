@@ -1,6 +1,6 @@
 import {ChangeEvent, useState} from 'react';
 import {useAppDispatch} from "../../app/hooks";
-import {searchShows} from "../../store/showsThunks";
+import {fetchSearchShows} from '../../store/showsThunks';
 
 const SearchInput = () => {
   const dispatch = useAppDispatch();
@@ -9,7 +9,7 @@ const SearchInput = () => {
 
   const inputChange = (e: ChangeEvent<HTMLInputElement>) => {
       setSearchInput(e.target.value);
-      dispatch(searchShows(e.target.value));
+      dispatch(fetchSearchShows(e.target.value));
   };
 
   return (
