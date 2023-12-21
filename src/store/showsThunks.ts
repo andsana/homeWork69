@@ -1,19 +1,20 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import axios from "axios";
-import {searchShow, selectedShow} from '../types';
+import axios from 'axios';
+import {selectedShow, ShowData} from '../types';
+import axiosApi from '../axiosApi';
 
-export const fetchSearchShows = createAsyncThunk<searchShow[]| null, string>(
+export const fetchSearchShows = createAsyncThunk<ShowData[], string>(
   ' shows/searchShows',
-  async (searchInput) => {
-    const showsResponse = await axios.get(`/search/shows?q=${searchInput}`);
+  async (searchInput: string) => {
+    const showsResponse = await axiosApi.get(`/search/shows?q=${searchInput}`);
     return showsResponse.data;
   }
 );
 
-export const fetchSelectedShow = createAsyncThunk<selectedShow | null, number>(
+export const fetchSelectedShow = createAsyncThunk<selectedShow | null>(
   'shows/fetchShowByOne',
-    async (id) => {
+  async (id) => {
     const showResponse = await axios.get(`/shows/${id}`);
     return showResponse.data;
-    }
+  }
 );

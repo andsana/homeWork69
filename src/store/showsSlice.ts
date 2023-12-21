@@ -1,10 +1,10 @@
-import {searchShow, selectedShow} from '../types';
+import {selectedShow, ShowData} from '../types';
 import {createSlice} from '@reduxjs/toolkit';
 import {fetchSearchShows, fetchSelectedShow} from './showsThunks';
-
+import {RootState} from "../app/store";
 
 interface ShowsState {
-  fetchSearchShows: searchShow[] | null,
+  fetchSearchShows: ShowData[],
   fetchSelectedShow: selectedShow | null,
   fetchLoading: boolean;
 }
@@ -19,7 +19,7 @@ export const showsSlice = createSlice({
   name: 'shows',
   initialState,
   reducers: {},
-  extraReducers: ((builder) => {
+  extraReducers: (builder) => {
     builder.addCase(fetchSearchShows.pending, (state) => {
       state.fetchLoading = true;
     });
@@ -33,15 +33,36 @@ export const showsSlice = createSlice({
     builder.addCase(fetchSelectedShow.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchSearchShows.fulfilled, (state, {payload: fetchSelectedShow}) => {
+    builder.addCase(fetchSelectedShow.fulfilled, (state, {payload: fetchSelectedShow}) => {
       state.fetchLoading = false;
-      state.fetchSearchShows = fetchSelectedShow;
+      state.fetchSelectedShow = fetchSelectedShow;
     });
     builder.addCase(fetchSelectedShow.rejected, (state) => {
       state.fetchLoading = false;
     });
-  })
+  },
 });
 
-export default showsSlice;
+export const showsReducer = showsSlice.reducer;
+export const selectShows = (state: RootState) => state.shows.fetchSearchShows;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,4 +1,4 @@
-export interface searchShow {
+export interface SearchShow {
   id: number;
   name: string;
 }
@@ -9,4 +9,9 @@ export interface selectedShow {
     description: string;
     image: string;
 }
+
+interface ShowData {
+    show: SearchShow;
+}
+
 
