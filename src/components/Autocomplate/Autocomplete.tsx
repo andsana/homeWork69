@@ -1,9 +1,20 @@
-import {selectShows} from '../../store/showsSlice';
-import {useSelector} from 'react-redux';
-import {ShowData, SearchShow} from '../../types';
+import {SearchShow, ShowData} from '../../types';
+import {
+    isAutocompleteVisibleSelector,
+    searchShowsSelector,
+    selectFetchShowsLoading,
+    setAutocompleteVisibility
+} from '../../store/showsSlice';
+import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../app/hooks';
+import Spinner from '../Spinner/Spinner';
+import {useDispatch} from 'react-redux';
 
 const Autocomplete = () => {
-  const fetchShows = useSelector(selectShows);
+  const dispatch = useDispatch();
+  const fetchShows = useAppSelector(searchShowsSelector);
+  const fetchLoading = useAppSelector(selectFetchShowsLoading);
+  const isAutocompleteVisible = useAppSelector(isAutocompleteVisibleSelector);
 
   let searchShows: SearchShow[] = [];
 
@@ -14,21 +25,26 @@ const Autocomplete = () => {
     }));
   }
 
-  const showList = searchShows.length > 0 ? (
+  const onClick = () => {
+    dispatch(setAutocompleteVisibility(false));
+  };
+
+
+  const showList = isAutocompleteVisible && (searchShows.length > 0 ? (
     <ul className="list-group rounded-0">
       {searchShows.map((show: SearchShow) => (
         <li className="list-group-item" style={{maxWidth: '300px'}} key={show.id}>
-          {show.name}
+          <Link to={`/shows/${show.id}`} onClick={onClick}>{show.name}</Link>
         </li>
       ))}
     </ul>
   ) : (
-    <p>Not found</p>
-  );
+    <p>Not found!!</p>
+  ));
 
   return (
     <div>
-      {showList}
+      {fetchLoading ? <Spinner/> : showList}
     </div>
   );
 };

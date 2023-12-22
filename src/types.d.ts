@@ -3,15 +3,24 @@ export interface SearchShow {
   name: string;
 }
 
-export interface selectedShow {
-    id: number;
-    name: string;
-    description: string;
-    image: string;
+export interface Image {
+  medium: string;
+  original: string;
 }
 
-interface ShowData {
-    show: SearchShow;
+export interface SelectedShow {
+  id: number;
+  name: string;
+  image: Image;
+  premiered: string;
+  language: string;
 }
+
+
+interface ShowData {
+  show: SelectedShow;
+}
+
+
 
 
